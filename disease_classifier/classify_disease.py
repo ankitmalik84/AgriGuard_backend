@@ -64,35 +64,3 @@ def predict_image(img, model=disease_model):
     _, preds = torch.max(yb, dim=1)
     prediction = disease_classes[preds[0].item()]
     return prediction
-
-
-# import numpy as np
-# import tensorflow as tf
-# from tensorflow.keras.preprocessing import image
-# import io
-# from disease_classifier.disease_info import get_disease_recommendation
-
-
-# # Load the saved model and class labels
-# model = tf.keras.models.load_model('models/plant_disease_model.h5')
-# with open('models/class_labels.txt', 'r') as f:
-#     class_labels = f.read().splitlines()
-
-# def predict_image(img_bytes):
-#     try:
-#         # Load and preprocess the image
-#         image_data = image.load_img(io.BytesIO(img_bytes), target_size=(128, 128))
-#         image_array = image.img_to_array(image_data)
-#         image_array = np.expand_dims(image_array, axis=0)
-#         image_array /= 255.0  # Rescale the pixel values
-
-#         # Make predictions
-#         predictions = model.predict(image_array)
-#         predicted_class = class_labels[np.argmax(predictions)]
-#         print("classpre",predicted_class)
-#         # info = get_disease_recommendation(predicted_class)
-#         # print(info)
-#         print("preddddiction aa gyi",predicted_class)
-#         return predicted_class
-#     except Exception as e:
-#         return {"error": str(e), "success": False}

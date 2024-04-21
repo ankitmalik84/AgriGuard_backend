@@ -3,16 +3,11 @@ import numpy as np
 from botocore.client import Config
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-# from gtts import gTTS
-# from twilio.rest import Client
-
-# from config import ACCESS_KEY_ID, ACCESS_SECRET_KEY, BUCKET_NAME, config
 from config import config
 from crop_recommendation.corp_prediction import recommend_crop
 from crop_recommendation.weather import weather_fetch
 from disease_classifier.disease_info import get_disease_recommendation
 from disease_classifier.classify_disease import predict_image
-# from farmers_log.search_user_request import search_log
 from fertilizier_predict.crop_type_encoder import encode_crop_type
 from fertilizier_predict.decode_fertilizer import decode_fertilizer
 from fertilizier_predict.fertilizer_report import generate_fertilizer_report
@@ -24,17 +19,8 @@ from utils import response_payload
 
 app = Flask(__name__)
 CORS(app)
-# CORS(app, origins=["http://localhost:3000"])
 
-
-
-# The titles of the topics stored in the database are:
-    # Nutrition
-    # Fertilizantes
-    # Cultivation
-    # Harvest
-
-@app.route("/test", methods = ["GET"])
+@app.route("/", methods = ["GET"])
 def test():
     return response_payload(True,"Hello World Crop Prediction model ka backend start ho chukaa hai")
 
@@ -53,42 +39,45 @@ def check_form_data():
     return data, valid
 
 
-@app.route('/crop-recommedation', methods = ["POST"])
-def crop_recommedation():
+@app.route('/crop-recommedation', methods=["POST"])
+def crop_recommendation():
     data, form_valid = check_form_data()
     if form_valid == 0:
-        return response_payload(False, msg= data)
-    
+        return response_payload(False, msg=data)
+
     try:
+        # Parse input data from form
         N = int(data.get('nitrogen'))
         P = int(data.get('phosphorous'))
         K = int(data.get('pottasium'))
         ph = float(data.get('ph'))
         rainfall = float(data.get('rainfall'))
         city = data.get("city")
-        lang = data.get("lang")
-        if lang == None:
-            lang = "en"
+        lang = data.get("lang", "en")
         city = translate_text_to_language(city, "en", lang)
 
         try:
             city_info = weather_fetch(city)
+            print("city weather info" + str(city_info))
         except Exception:
             return response_payload(False, msg="Unable to get the city information. Please try again")
-         
-        if city_info != None:
+
+        if city_info is not None:
             temperature, humidity = city_info
             data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
             my_prediction = recommend_crop(data)
+            print("prediction", my_prediction)
             recommendation_result = {
-                    "prediction": translate_text_to_language(my_prediction[0],lang, "en")
-                }
+                "prediction": translate_text_to_language(my_prediction, lang, "en")
+            }
             return response_payload(True, recommendation_result, "Success search")
         else:
-            return response_payload(False, 'Please try again') 
-        
-    except Exception:
+            return response_payload(False, 'Please try again')
+
+    except Exception as e:
+        print("Error:", e)
         return response_payload(False, msg="Request body is not valid")
+
     
 @app.route('/fertilizer-predict', methods = ["POST"])
 def predict_fertilizer():
@@ -178,33 +167,6 @@ def disease_prediction(lang):
             print(e)
             pass
     return response_payload(False, 'Please try again')
-
-# @app.route('/disease-predict/<lang>', methods=['GET', 'POST'])
-# def disease_prediction(lang):
-#     if request.method == 'POST':
-#         if lang == None:
-#             lang = "en"
-
-
-#         if 'file' not in request.files:
-#             return response_payload(False, 'Please select a file')
-#         file = request.files.get('file')
-#         if not file:
-#             return response_payload(False, 'Please select a file. Make sure there is  file')
-#         try:
-#             img = file.read()
-
-#             prediction = predict_image(img)
-#             recommendation_result = {
-#                     "prediction": translate_text_to_language(prediction, lang, "en"),
-#                 }
-#             print(prediction)
-#             return response_payload(True, recommendation_result, "Success prediction")
-            
-#         except Exception as e:
-#             print(e)
-#             pass
-#     return response_payload(False, 'Please try again')     
 
 
 def page_not_found(error):
