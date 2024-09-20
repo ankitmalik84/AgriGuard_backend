@@ -7,7 +7,7 @@ numpy>=1.22,<1.24.3          # Keeps the same range to ensure TensorFlow compati
 Pillow==9.5.0                # Updated to a more recent version
 requests==2.31.0             # Remains the same; it's the latest version
 tensorflow-intel==2.14.0     # Specifies a version compatible with TensorFlow 2.14.0
-tensorflow==2.14.0           # Updated from 2.12.0
+tensorflow==2.13.0           # Updated from 2.12.0
 torch==2.0.1                 # Remains the same; latest version
 torchvision==0.15.2          # Remains the same; latest version
 Werkzeug==2.3.7              # Latest compatible version with Flask 2.3.3
