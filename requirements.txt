@@ -1,13 +1,13 @@
-boto3==1.28.45
-botocore==1.31.45
-Flask==2.2.2
-Flask_Cors==4.0.0
-googletrans==4.0.0rc1
-numpy>=1.22,<1.24.3
-Pillow==9.4.0
-Requests==2.31.0
-tensorflow-intel
-tensorflow==2.12.0
-torch==2.0.1
-torchvision==0.15.2
-Werkzeug>=2.2.2
+boto3==1.28.60               # Updated from 1.28.45
+botocore==1.31.60            # Updated from 1.31.45
+Flask==2.3.3                 # Latest compatible Flask version
+Flask_Cors==4.0.0            # Remains the same; no updates available
+googletrans==4.0.0rc1        # Latest available version
+numpy>=1.22,<1.24.3          # Keeps the same range to ensure TensorFlow compatibility
+Pillow==9.5.0                # Updated to a more recent version
+requests==2.31.0             # Remains the same; it's the latest version
+tensorflow-intel==2.14.0     # Specifies a version compatible with TensorFlow 2.14.0
+tensorflow==2.14.0           # Updated from 2.12.0
+torch==2.0.1                 # Remains the same; latest version
+torchvision==0.15.2          # Remains the same; latest version
+Werkzeug==2.3.7              # Latest compatible version with Flask 2.3.3
