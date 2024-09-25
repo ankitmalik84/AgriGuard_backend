@@ -80,8 +80,9 @@ def crop_recommendation():
             return response_payload(False, 'Please try again')
 
     except Exception as e:
-        print("Error:", e)
-        return response_payload(False, msg="Request body is not valid")
+        error_message = f"Request body is not valid: {str(e)}"
+        print("Error:", error_message)  # Log error in render logs
+        return response_payload(False, msg=error_message)  # Return the error message in the response
 
     
 @app.route('/fertilizer-predict', methods = ["POST"])
