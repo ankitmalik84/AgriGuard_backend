@@ -175,10 +175,12 @@ def page_not_found(error):
       
 
 if __name__ == '__main__':
-    app.config.from_object(config['development'])
+    env = os.environ.get('FLASK_ENV', 'development')
+    app.config.from_object(config[env])
     app.register_error_handler(404, page_not_found)
-    port = int(os.environ.get('PORT', 5000))  # Get PORT from environment variables
-    app.run(host='0.0.0.0', port=port)  # Use environment variable for port
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+
 
     
     
