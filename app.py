@@ -19,7 +19,11 @@ from localization.translator import translate_text_to_language
 from utils import response_payload
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://agri-guard-frontend.vercel.app"}})
+CORS(app, resources={r"/*": {
+    "origins": "https://agri-guard-frontend.vercel.app",  # frontend URL
+    "methods": ["GET", "POST", "OPTIONS"],  # Allowed methods
+    "allow_headers": ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],  # Allowed headers
+}})
 
 @app.route("/", methods = ["GET"])
 def test():
