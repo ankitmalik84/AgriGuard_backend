@@ -177,7 +177,8 @@ def page_not_found(error):
 if __name__ == '__main__':
     app.config.from_object(config['development'])
     app.register_error_handler(404, page_not_found)
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))  # Default to 5000 for local development
+    port = int(os.environ.get('PORT', 5000))  # Get PORT from environment variables
+    app.run(host='0.0.0.0', port=port)  # Use environment variable for port
 
     
     
