@@ -11,4 +11,4 @@ tensorflow==2.13.0           # Updated from 2.12.0
 torch==2.0.1                 # Remains the same; latest version
 torchvision==0.15.2          # Remains the same; latest version
 Werkzeug==2.3.7              # Latest compatible version with Flask 2.3.3
-scikit-learn
+scikit-learn==1.4.2
